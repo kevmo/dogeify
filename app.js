@@ -9,6 +9,14 @@ var user = require('./routes/user');
 var http = require('http');
 var path = require('path');
 
+//
+// mongo + monk
+//
+
+var mongo = require('mongodb');
+var monk = require('monk');
+var db = monk('localhost:27017/nodetest');
+
 //initialize express
 
 var app = express();
@@ -43,6 +51,9 @@ if ('development' == app.get('env')) {
 
 app.get('/', routes.index);
 app.get('/users', user.list);
+app.get('/userlist', routes.userlist(db));
+app.get('/newuser', routes.newuser);
+app.post('/adduser', routes.adduser(db));
 //app.get('/profile', routes.profile);
 
 //
