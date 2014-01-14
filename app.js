@@ -1,4 +1,3 @@
-
 //
 // Module dependencies.
 //
@@ -10,12 +9,38 @@ var http = require('http');
 var path = require('path');
 
 //
-// mongo + monk
+// mongo + monk - commented out during mongoose transition
 //
 
-var mongo = require('mongodb');
-var monk = require('monk');
-var db = monk('localhost:27017/nodetest');
+// var mongo = require('mongodb');
+// var monk = require('monk');
+// var db = monk('localhost:27017/nodetest');
+
+//
+// switch to mongoose
+//
+
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/nodetest');
+var db = mongoose.connection;
+
+//listen for connections
+
+db.on('error', console.error.bind(console, 'connection error: '));
+db.once('open', function callback(){});
+
+//  mongoose schema
+
+var Schema = mongoose.Schema;
+
+var userSchema = new Schema({
+  username: String,
+  email: String
+});
+
+//  mongoose model
+
+var User = mongoose.model('User', userSchema);
 
 //initialize express
 
