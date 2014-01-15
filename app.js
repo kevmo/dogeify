@@ -4,7 +4,7 @@
 
 var express = require('express');
 var routes = require('./routes');
-var user = require('./routes/user');
+var link = require('./routes/link');
 var http = require('http');
 var path = require('path');
 
@@ -27,20 +27,23 @@ var db = mongoose.connection;
 //listen for connections
 
 db.on('error', console.error.bind(console, 'connection error: '));
-db.once('open', function callback(){});
+db.once('open', function callback(){
+  console.log("mongo successfully started");
+});
 
 //  mongoose schema
 
 var Schema = mongoose.Schema;
 
-var userSchema = new Schema({
-  username: String,
-  email: String
+var linkSchema = new Schema({
+  linkTitle: String,
+  url: String,
+  dogeUrl: String
 });
 
 //  mongoose model
 
-var User = mongoose.model('User', userSchema);
+var Link = mongoose.model('Link', linkSchema);
 
 //initialize express
 
@@ -75,10 +78,10 @@ if ('development' == app.get('env')) {
 //
 
 app.get('/', routes.index);
-app.get('/users', user.list);
-app.get('/userlist', routes.userlist(db));
-app.get('/newuser', routes.newuser);
-app.post('/adduser', routes.adduser(db));
+app.get('/links', link.list);
+app.get('/linklist', routes.linklist(db));
+app.get('/newlink', routes.newlink);
+app.post('/addlink', routes.addlink(Link));
 //app.get('/profile', routes.profile);
 
 //

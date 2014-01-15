@@ -1,5 +1,9 @@
 extends layout
 
+script(src="/scripts/index.js")
+
 block content
-  h1= title
-  p Welcome to #{title}
+  h1 Enter your link here
+  form#formAddLink(name="addlink",method="post",action="/addlink")
+    input#url(type="text", placeholder="http://", name="url")
+    button#btnSubmit(type="submit") submit
