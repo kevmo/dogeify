@@ -7,6 +7,7 @@ var routes = require('./routes');
 var link = require('./routes/link');
 var http = require('http');
 var path = require('path');
+var _ = require('underscore');
 
 //
 // mongo + monk - commented out during mongoose transition
