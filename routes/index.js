@@ -67,14 +67,6 @@ exports.addlink = function(Link) {
 
     var dogeifiedURL = '';
 
-    console.log(hash);
-
-    // while (hash.length) {
-    //   var part = hash.slice(0,2);
-    //   hash = hash.slice(2);
-    //   part = Number(part);
-    //   dogeifiedURL += modifiers[Math.floor(part / 20)] + '-' + nouns[part % 20] + '-';
-    // }
     for (var i = 0; i < 5; i++){
       var part = hash % 100;
       dogeifiedURL = modifiers[Math.floor(part / 20)] + '-' + nouns[part % 20] + '-' + dogeifiedURL;
@@ -82,13 +74,6 @@ exports.addlink = function(Link) {
     }
 
     return dogeifiedURL + 'wow';
-    // var modifierLength = Math.floor(Math.random()*modifiers.length) + 1;
-    // var dogeifiedURL = '';
-    // for (var i = 0; i < modifierLength; i++) {
-    //   dogeifiedURL += takeRandomElemOf(modifiers) + "-" + takeRandomElemOf(nouns) + '-';
-    // }
-    // if (Math.random() > 0.5) dogeifiedURL += "wow-";
-    // return dogeifiedURL + create10Hash(linkTitle);
   };
 
   return function(req, res) {
@@ -127,64 +112,6 @@ exports.addlink = function(Link) {
         res.redirect('/links/' + dogeLink);
       }
     });
-
-
-    // var request = http.get(options, function(res){
-    //   // res.on('data', function(chunk){
-    //   //   var re = /(<\s*title[^>]*>(.+?)<\s*\/\s*title)>/g;
-    //   //   var str = chunk.toString();
-    //   //   var match = re.exec(str);
-    //   //   if (match && match[2]) {
-    //   //     linkTitle = match[2];
-    //   //   }
-    //   // });
-
-    //   res.on('end', function(){
-    //     linkTitle = linkTitle || "such link. wow";
-    //     var dogeLink = createDogeLink(url_parts.href + url_parts.href);
-
-    //     console.log(linkTitle, url_parts.href, dogeLink);
-
-    //     var link = new Link({
-    //       "linkTitle" : linkTitle,
-    //       "url": url_parts.href,
-    //       "dogeUrl": dogeLink
-    //     });
-
-    //     link.save(function(err){
-    //       if (err) console.log("ERROR:", err);
-    //       else console.log("SUCCESS");
-    //     });
-    //   });
-    // });
-
-    // linkTitle: String,
-    // url: String,
-    // dogeUrl: String
-
-    // Get our form values. These rely on the "name" attributes
-
-    // Set our collection
-
-    // var collection = db.find('link');
-
-    // // Submit to the DB
-    // collection.insert({
-    //   "linkTitle" : linkTitle,
-    //   "url": url,
-    //   "dogeUrl": url
-    // }, function (err, doc) {
-    //   if (err) {
-    //     // If it failed, return error
-    //     res.send("There was a problem adding the information to the database.");
-    //   }
-    //   else {
-    //     // If it worked, set the header so the address bar doesn't still say /addlink
-    //     res.location("linklist");
-    //     // And forward to success page
-    //     res.redirect("linklist");
-    //   }
-    // });
 
   };
 };
