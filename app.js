@@ -22,7 +22,10 @@ var _ = require('underscore');
 //
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/nodetest');
+var mongoUri = process.env.MONGOLAB_URI ||
+  process.env.MONGOHQ_URL ||
+  'mongodb://localhost:27017/nodetest';
+mongoose.connect(mongoUri);
 var db = mongoose.connection;
 
 //listen for connections
