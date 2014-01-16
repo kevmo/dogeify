@@ -3,7 +3,7 @@
 //
 
 var express = require('express');
-var routes = require('./routes');
+var routes = require('./routes/index');
 var link = require('./routes/link');
 var http = require('http');
 var path = require('path');
@@ -79,10 +79,12 @@ if ('development' == app.get('env')) {
 //
 
 app.get('/', routes.index);
-app.get('/links', link.list);
-app.get('/linklist', routes.linklist(db));
+app.get('/links/:dogeUrl', link.findByURL(db, Link));
+app.get('/linklist', routes.linklist(db, Link));
 app.get('/newlink', routes.newlink);
+app.get('/showlink/:dogeUrl', routes.showlink);
 app.post('/addlink', routes.addlink(Link));
+app.get('/:dogeUrl', link.redirectToDoge(db, Link));
 //app.get('/profile', routes.profile);
 
 //

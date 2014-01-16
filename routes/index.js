@@ -1,9 +1,8 @@
 var http = require('http');
 var https = require('https');
+var html = require('html');
 var url = require('url');
 var _ = require('underscore');
-// var html = require('html');
-
 
 var modifiers = ['such', 'many', 'so', 'very', 'much'];
 var nouns = ['internet', 'search', 'social', 'shibe', 'virus', 'server', 'loadtime', '404', 'cookie', 'redirect', 'NSA', 'link', 'bookmark', 'hacker', 'n00b', 'www', 'doge', 'short', 'url', 'http'];
@@ -33,6 +32,11 @@ exports.linklist = function(db){
 
 exports.newlink = function(req, res){
   res.render('newlink', {title: "Add New Link"});
+};
+
+exports.showlink = function(req, res){
+  console.log(res.req.params.dogeUrl)
+  res.render('suchlink', {title: res.req.params.dogeUrl})
 };
 
 exports.addlink = function(Link) {
@@ -115,9 +119,15 @@ exports.addlink = function(Link) {
     });
 
     link.save(function(err){
-      if (err) console.log("ERROR:", err);
-      else console.log("SUCCESS");
+      if (err) {
+        console.log("ERROR:", err);
+        res.redirect('failure');
+    } else {
+        console.log("SUCCESS");
+        res.redirect('/links/' + dogeLink);
+      }
     });
+
 
     // var request = http.get(options, function(res){
     //   // res.on('data', function(chunk){
