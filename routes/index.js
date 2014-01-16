@@ -1,6 +1,5 @@
 var http = require('http');
 var https = require('https');
-var html = require('html');
 var url = require('url');
 var _ = require('underscore');
 
