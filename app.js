@@ -1,21 +1,50 @@
-
 //
 // Module dependencies.
 //
 
 var express = require('express');
-var routes = require('./routes');
-var user = require('./routes/user');
+var routes = require('./routes/index');
+var link = require('./routes/link');
 var http = require('http');
 var path = require('path');
+var _ = require('underscore');
 
 //
-// mongo + monk
+// mongo + monk - commented out during mongoose transition
 //
 
-var mongo = require('mongodb');
-var monk = require('monk');
-var db = monk('localhost:27017/nodetest');
+// var mongo = require('mongodb');
+// var monk = require('monk');
+// var db = monk('localhost:27017/nodetest');
+
+//
+// switch to mongoose
+//
+
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/nodetest');
+var db = mongoose.connection;
+
+//listen for connections
+
+db.on('error', console.error.bind(console, 'connection error: '));
+db.once('open', function callback(){
+  console.log("mongo successfully started");
+});
+
+//  mongoose schema
+
+var Schema = mongoose.Schema;
+
+var linkSchema = new Schema({
+  linkTitle: String,
+  url: String,
+  dogeUrl: String
+});
+
+//  mongoose model
+
+var Link = mongoose.model('Link', linkSchema);
 
 //initialize express
 
@@ -50,10 +79,12 @@ if ('development' == app.get('env')) {
 //
 
 app.get('/', routes.index);
-app.get('/users', user.list);
-app.get('/userlist', routes.userlist(db));
-app.get('/newuser', routes.newuser);
-app.post('/adduser', routes.adduser(db));
+app.get('/links/:dogeUrl', link.findByURL(db, Link));
+app.get('/linklist', routes.linklist(db, Link));
+app.get('/newlink', routes.newlink);
+app.get('/showlink/:dogeUrl', routes.showlink);
+app.post('/addlink', routes.addlink(Link));
+app.get('/:dogeUrl', link.redirectToDoge(db, Link));
 //app.get('/profile', routes.profile);
 
 //
