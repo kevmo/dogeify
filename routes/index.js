@@ -1,6 +1,5 @@
 var http = require('http');
 var https = require('https');
-var html = require('html');
 var url = require('url');
 var _ = require('underscore');
 
@@ -12,7 +11,7 @@ var nouns = ['internet', 'search', 'social', 'shibe', 'virus', 'server', 'loadti
  */
 
 exports.index = function(req, res){
-  res.render('index');
+  res.render('index', {title: "dogeify"});
 };
 
 // database route
@@ -34,9 +33,13 @@ exports.newlink = function(req, res){
   res.render('newlink', {title: "Add New Link"});
 };
 
+exports.showFail = function(req, res){
+  res.render('failure');
+}
+
 exports.showlink = function(req, res){
   console.log(res.req.params.dogeUrl)
-  res.render('suchlink', {title: res.req.params.dogeUrl})
+  res.render('suchlink', {link: res.req.params.dogeUrl});
 };
 
 exports.addlink = function(Link) {
@@ -67,14 +70,6 @@ exports.addlink = function(Link) {
 
     var dogeifiedURL = '';
 
-    console.log(hash);
-
-    // while (hash.length) {
-    //   var part = hash.slice(0,2);
-    //   hash = hash.slice(2);
-    //   part = Number(part);
-    //   dogeifiedURL += modifiers[Math.floor(part / 20)] + '-' + nouns[part % 20] + '-';
-    // }
     for (var i = 0; i < 5; i++){
       var part = hash % 100;
       dogeifiedURL = modifiers[Math.floor(part / 20)] + '-' + nouns[part % 20] + '-' + dogeifiedURL;
@@ -82,23 +77,23 @@ exports.addlink = function(Link) {
     }
 
     return dogeifiedURL + 'wow';
-    // var modifierLength = Math.floor(Math.random()*modifiers.length) + 1;
-    // var dogeifiedURL = '';
-    // for (var i = 0; i < modifierLength; i++) {
-    //   dogeifiedURL += takeRandomElemOf(modifiers) + "-" + takeRandomElemOf(nouns) + '-';
-    // }
-    // if (Math.random() > 0.5) dogeifiedURL += "wow-";
-    // return dogeifiedURL + create10Hash(linkTitle);
   };
 
   return function(req, res) {
 
     var url_parts = url.parse(req.body.url, true);
+    console.log(url_parts);
     if (!url_parts.protocol) {
       url_parts.protocol = 'http:';
-      url_parts.host = 'www.' + url.pathname;
-      url_parts.hostname = 'www.' + url.pathname;
+      url_parts.host = 'www.' + url_parts.pathname;
+      url_parts.hostname = 'www.' + url_parts.pathname;
+      // if (url_parts.href.slice(0,4) === "www.") {
+        url_parts.href = "http://" + url_parts.pathname;
+      // } else {
+      //   url_parts.href = "http://www." + url_parts.pathname;        
+      // }
     }
+    console.log(url_parts);
     var query = url_parts.query;
     var options = {
       host: url_parts.host,
@@ -127,64 +122,6 @@ exports.addlink = function(Link) {
         res.redirect('/links/' + dogeLink);
       }
     });
-
-
-    // var request = http.get(options, function(res){
-    //   // res.on('data', function(chunk){
-    //   //   var re = /(<\s*title[^>]*>(.+?)<\s*\/\s*title)>/g;
-    //   //   var str = chunk.toString();
-    //   //   var match = re.exec(str);
-    //   //   if (match && match[2]) {
-    //   //     linkTitle = match[2];
-    //   //   }
-    //   // });
-
-    //   res.on('end', function(){
-    //     linkTitle = linkTitle || "such link. wow";
-    //     var dogeLink = createDogeLink(url_parts.href + url_parts.href);
-
-    //     console.log(linkTitle, url_parts.href, dogeLink);
-
-    //     var link = new Link({
-    //       "linkTitle" : linkTitle,
-    //       "url": url_parts.href,
-    //       "dogeUrl": dogeLink
-    //     });
-
-    //     link.save(function(err){
-    //       if (err) console.log("ERROR:", err);
-    //       else console.log("SUCCESS");
-    //     });
-    //   });
-    // });
-
-    // linkTitle: String,
-    // url: String,
-    // dogeUrl: String
-
-    // Get our form values. These rely on the "name" attributes
-
-    // Set our collection
-
-    // var collection = db.find('link');
-
-    // // Submit to the DB
-    // collection.insert({
-    //   "linkTitle" : linkTitle,
-    //   "url": url,
-    //   "dogeUrl": url
-    // }, function (err, doc) {
-    //   if (err) {
-    //     // If it failed, return error
-    //     res.send("There was a problem adding the information to the database.");
-    //   }
-    //   else {
-    //     // If it worked, set the header so the address bar doesn't still say /addlink
-    //     res.location("linklist");
-    //     // And forward to success page
-    //     res.redirect("linklist");
-    //   }
-    // });
 
   };
 };

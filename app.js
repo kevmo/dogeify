@@ -22,7 +22,10 @@ var _ = require('underscore');
 //
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/nodetest');
+var mongoUri = process.env.MONGOLAB_URI ||
+  process.env.MONGOHQ_URL ||
+  'mongodb://localhost:27017/nodetest';
+mongoose.connect(mongoUri);
 var db = mongoose.connection;
 
 //listen for connections
@@ -84,6 +87,7 @@ app.get('/linklist', routes.linklist(db, Link));
 app.get('/newlink', routes.newlink);
 app.get('/showlink/:dogeUrl', routes.showlink);
 app.post('/addlink', routes.addlink(Link));
+app.get('/failure', routes.showFail);
 app.get('/:dogeUrl', link.redirectToDoge(db, Link));
 //app.get('/profile', routes.profile);
 

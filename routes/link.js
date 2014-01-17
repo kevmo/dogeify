@@ -12,16 +12,11 @@ exports.findByURL = function(db, Link){
     var dogeURL = req.params.dogeUrl;
     console.log('wow. such findbyURL. very find, dogeurl: ' + dogeURL);
     Link.find({'dogeUrl': dogeURL}, function(e, docs){
-      console.log('docs:', docs);
+      // console.log('docs:', docs);
       if (e) console.log("Error: ", e);
-      else res.redirect(docs[0].url);
+      else res.redirect('/showlink/' + docs[0].dogeUrl);
+      // else res.redirect(docs[0].url);
     });
-    // var collection = db.get('link');
-    // collection.find({}, {}, function(e, docs){
-    //   res.render('linklist', {
-    //     'link': docs
-    //   });
-    // });
   };
 };
 
@@ -31,8 +26,10 @@ exports.redirectToDoge = function(db, Link){
     var dogeURL = req.params.dogeUrl;
     console.log('wow. such link. very find: ' + dogeURL);
     Link.find({'dogeUrl': dogeURL}, function(e, docs){
-      if (e) console.log("Error: ", e);
-      else console.log(docs);
+      if (e || docs.length === 0) {
+        console.log("Error: ", e);
+        res.redirect('/failure');
+      } else res.redirect(docs[0].url);
     });
   };
 };
