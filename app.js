@@ -87,6 +87,7 @@ app.get('/linklist', routes.linklist(db, Link));
 app.get('/newlink', routes.newlink);
 app.get('/showlink/:dogeUrl', routes.showlink);
 app.post('/addlink', routes.addlink(Link));
+app.get('/failure', routes.showFail);
 app.get('/:dogeUrl', link.redirectToDoge(db, Link));
 //app.get('/profile', routes.profile);
 

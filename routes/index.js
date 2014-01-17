@@ -33,9 +33,13 @@ exports.newlink = function(req, res){
   res.render('newlink', {title: "Add New Link"});
 };
 
+exports.showFail = function(req, res){
+  res.render('failure');
+}
+
 exports.showlink = function(req, res){
   console.log(res.req.params.dogeUrl)
-  res.render('suchlink', {link: res.req.params.dogeUrl})
+  res.render('suchlink', {link: res.req.params.dogeUrl});
 };
 
 exports.addlink = function(Link) {
@@ -78,11 +82,18 @@ exports.addlink = function(Link) {
   return function(req, res) {
 
     var url_parts = url.parse(req.body.url, true);
+    console.log(url_parts);
     if (!url_parts.protocol) {
       url_parts.protocol = 'http:';
-      url_parts.host = 'www.' + url.pathname;
-      url_parts.hostname = 'www.' + url.pathname;
+      url_parts.host = 'www.' + url_parts.pathname;
+      url_parts.hostname = 'www.' + url_parts.pathname;
+      if (url_parts.href.slice(0,4) === "www.") {
+        url_parts.href = "http://" + url_parts.pathname;
+      } else {
+        url_parts.href = "http://www." + url_parts.pathname;        
+      }
     }
+    console.log(url_parts);
     var query = url_parts.query;
     var options = {
       host: url_parts.host,
