@@ -87,11 +87,11 @@ exports.addlink = function(Link) {
       url_parts.protocol = 'http:';
       url_parts.host = 'www.' + url_parts.pathname;
       url_parts.hostname = 'www.' + url_parts.pathname;
-      if (url_parts.href.slice(0,4) === "www.") {
+      // if (url_parts.href.slice(0,4) === "www.") {
         url_parts.href = "http://" + url_parts.pathname;
-      } else {
-        url_parts.href = "http://www." + url_parts.pathname;        
-      }
+      // } else {
+      //   url_parts.href = "http://www." + url_parts.pathname;        
+      // }
     }
     console.log(url_parts);
     var query = url_parts.query;
