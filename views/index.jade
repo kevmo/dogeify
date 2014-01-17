@@ -1,8 +1,10 @@
 extends layout
 
 block content
-  h1 much link
-  h2 so length
-  form#formAddLink(name="addlink",method="post",action="/addlink")
-    input#url(type="text", placeholder="very url", name="url")
-    button#btnSubmit(type="submit") wow
+  div.wrap
+    h1.red much link
+    h2.yellow so length
+    form#formAddLink(name="addlink",method="post",action="/addlink")
+      input#url(type="text", placeholder="very url", name="url")
+      br
+      button#btnSubmit(type="submit") wow

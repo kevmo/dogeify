@@ -35,7 +35,7 @@ exports.newlink = function(req, res){
 
 exports.showlink = function(req, res){
   console.log(res.req.params.dogeUrl)
-  res.render('suchlink', {title: res.req.params.dogeUrl})
+  res.render('suchlink', {link: res.req.params.dogeUrl})
 };
 
 exports.addlink = function(Link) {
