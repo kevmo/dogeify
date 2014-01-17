@@ -11,7 +11,7 @@ var nouns = ['internet', 'search', 'social', 'shibe', 'virus', 'server', 'loadti
  */
 
 exports.index = function(req, res){
-  res.render('index');
+  res.render('index', {title: "dogeify"});
 };
 
 // database route
