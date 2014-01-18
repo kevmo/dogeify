@@ -42,7 +42,8 @@ var Schema = mongoose.Schema;
 var linkSchema = new Schema({
   linkTitle: String,
   url: String,
-  dogeUrl: String
+  dogeUrl: String,
+  visits: Number
 });
 
 //  mongoose model

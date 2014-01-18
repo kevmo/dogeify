@@ -38,8 +38,11 @@ exports.showFail = function(req, res){
 }
 
 exports.showlink = function(req, res){
-  console.log(res.req.params.dogeUrl)
-  res.render('suchlink', {link: res.req.params.dogeUrl});
+  // console.log(url.parse(req.url, true))
+  // console.log(res.req.params)
+  var clicks = url.parse(req.url, true).query.clicks || "so mystery";
+
+  res.render('suchlink', {link: res.req.params.dogeUrl, clicks: clicks});
 };
 
 exports.addlink = function(Link) {
