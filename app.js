@@ -9,16 +9,9 @@ var http = require('http');
 var path = require('path');
 var _ = require('underscore');
 
-//
-// mongo + monk - commented out during mongoose transition
-//
-
-// var mongo = require('mongodb');
-// var monk = require('monk');
-// var db = monk('localhost:27017/nodetest');
 
 //
-// switch to mongoose
+// mongoose
 //
 
 var mongoose = require('mongoose');
@@ -83,21 +76,21 @@ if ('development' == app.get('env')) {
 //
 
 app.get('/', routes.index);
-app.get('/links/:dogeUrl', link.findByURL(db, Link));
 app.get('/linklist', routes.linklist(db, Link));
 app.get('/newlink', routes.newlink);
 app.get('/showlink/:dogeUrl', routes.showlink);
-app.post('/addlink', routes.addlink(Link));
 app.get('/failure', routes.showFail);
+app.get('/links/:dogeUrl', link.findByURL(db, Link));
 app.get('/:dogeUrl', link.redirectToDoge(db, Link));
-//app.get('/profile', routes.profile);
+
+app.post('/addlink', routes.addlink(Link));
 
 //
 // create and launch server
 //
 
 http.createServer(app).listen(app.get('port'), function(){
-  console.log('This is EXPRESS listening on ' + app.get('port'));
+  console.log('this ya boi EXPRESS.COM we outchea on ' + app.get('port'));
 });
 
 // could also use:

@@ -3,16 +3,11 @@
  * GET users listing.
  */
 
-exports.list = function(req, res){
-    db.collection
-};
-
-exports.findByURL = function(db, Link){
+exports.findByURL = function(db, Link){ // TODO: remove reference to db
   return function(req,res){
     var dogeURL = req.params.dogeUrl;
     console.log('wow. such findbyURL. very find, dogeurl: ' + dogeURL);
     Link.findOne({'dogeUrl': dogeURL}, function(e, docs){
-      console.log('docs:', docs);
       if (e) console.log("Error: ", e);
       else {
         var visits = docs.visits || "no";
@@ -22,7 +17,7 @@ exports.findByURL = function(db, Link){
   };
 };
 
-exports.redirectToDoge = function(db, Link){
+exports.redirectToDoge = function(db, Link){ // TODO: remove reference to db
   return function(req,res){
     console.log(req.params)
     var dogeURL = req.params.dogeUrl;
@@ -36,13 +31,9 @@ exports.redirectToDoge = function(db, Link){
         docs.visits = (typeof docs.visits === "number") ? docs.visits + 1 : 1;
         console.log(docs);
         docs.save(function(err){
-          if (err) {
-            console.log('could not save updated visit count');
-            // res.redirect(docs.url);
-          } else {
-          }
+          if (err) console.log('could not save updated visit count');
         });
-            res.redirect(docs.url);
+        res.redirect(docs.url);
       }
     });
   };
