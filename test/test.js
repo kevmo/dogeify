@@ -38,15 +38,15 @@ describe("app should create links", function(){
     });
   });
 
-  // it('creates a link', function(done){
-  //   request.get(host, function(err, response, body){
-  //     if (!err && response.statusCode === 200) {
-  //       request.post(host + '/addlink?url=http://www.google.com', function(err, response, body){
-  //         done();
-  //       });
-  //     } else console.log(err);
-  //   });
-  // });
+  it('creates a link', function(done){
+    request.get(host, function(err, response, body){
+      if (!err && response.statusCode === 200) {
+        request.post(host + '/addlink?url=http://www.google.com', function(err, response, body){
+          done();
+        });
+      } else console.log(err);
+    });
+  });
 
   // it('follows the link to the intended website', function(done){
   //   request.get(host + googleDoge, function(err, response, body){
