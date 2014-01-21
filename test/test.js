@@ -11,19 +11,39 @@ var _ = require('underscore');
 var host = 'http://localhost:1337';
 var googleDoge = '/such-bookmark-so-virus-such-redirect-so-hacker-much-search-wow';
 
+var depthFirstEachDOM = function(dom, callback) {
+  _.each(dom, function(value){
+    callback(value);
+    if (value.children) {
+      depthFirstEachDOM(value.children, callback);
+    }
+  });
+};
+
+var checkDOMforTagValue = function(dom, tag, checking){
+  var found = false;
+  depthFirstEachDOM(dom, function(node){
+    if (node.name === tag) {
+      if (node.children[0].raw === checking){
+        found = true;
+      }
+    }
+  });
+  return found;
+};
+
+// checkDOMforTagValue(dom, "title", "Google");
+
 
 // var checkDOMforTagValue = function(dom, tag, checking){
-//   _.each(dom, function(value, key, collection){
-//     if (value.name === tag) {
-//       if (value.children[0].raw === checking) {
-//         console.log("YO BITCH");
-//         return true;
-//       }
-//     } else {
-//       if (value.children){
-//         return checkDOMforTagValue(value.children, tag, checking);
-//       }
+//   if (value.name === tag) {
+//     if (value.children[0].raw === checking) {
+//       console.log("YO BITCH");
+//       return true;
 //     }
+//   }
+//   _.each(dom.children, function(value, key, collection){
+//     return checkDOMforTagValue(value.children, tag, checking);
 //   });
 //   return false;
 // };
@@ -55,8 +75,7 @@ describe("app should create links", function(){
           if (error) {
             console.error(error);
           } else {
-            // assert(checkDOMforTagValue(dom, "title", "Google") === true);
-            assert(dom[1].children[0].children[3].children[0].raw === "Google");
+            assert(checkDOMforTagValue(dom, "title", "Google") === true);
             done();
           }
         });
