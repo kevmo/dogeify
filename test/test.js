@@ -48,21 +48,21 @@ describe("app should create links", function(){
     });
   });
 
-  // it('follows the link to the intended website', function(done){
-  //   request.get(host + googleDoge, function(err, response, body){
-  //     if (!err && response.statusCode === 200){
-  //       var handler = new htmlparser.DefaultHandler(function (error, dom) {
-  //         if (error) {
-  //           console.error(error);
-  //         } else {
-  //           assert(checkDOMforTagValue(dom, "title", "Google") === true);
-  //           // assert(dom[1].children[0].children[3].children[0].raw === "Google");
-  //           done();
-  //         }
-  //       });
-  //       var parser = new htmlparser.Parser(handler);
-  //       parser.parseComplete(body);
-  //     } else console.error(err);
-  //   });
-  // });
+  it('follows the link to the intended website', function(done){
+    request.get(host + googleDoge, function(err, response, body){
+      if (!err && response.statusCode === 200){
+        var handler = new htmlparser.DefaultHandler(function (error, dom) {
+          if (error) {
+            console.error(error);
+          } else {
+            // assert(checkDOMforTagValue(dom, "title", "Google") === true);
+            assert(dom[1].children[0].children[3].children[0].raw === "Google");
+            done();
+          }
+        });
+        var parser = new htmlparser.Parser(handler);
+        parser.parseComplete(body);
+      } else console.error(err);
+    });
+  });
 });
