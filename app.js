@@ -1,3 +1,7 @@
+// node app.js
+// mongod
+// ^^ in home directory, to start app
+
 //
 // Module dependencies.
 //
